@@ -15,6 +15,7 @@ jobs:
 
       - name: Unzip source code
         run: |
+          # Đã sửa thành TH.zip theo tên file của bạn
           unzip -o TH.zip
           echo "--- DANH SÁCH FILE SAU KHI GIẢI NÉN ---"
           ls -la
@@ -40,7 +41,13 @@ jobs:
           cd "$PROJECT_DIR"
           chmod +x gradlew
           
-          # Chạy build với python 3.9 vừa cài
+          # XÓA DÒNG CẤU HÌNH LỖI AAPT2 (Gây lỗi "aapt2 does not exist")
+          if [ -f "gradle.properties" ]; then
+            sed -i '/aapt2FromMavenOverride/d' gradle.properties || true
+            echo "Đã dọn dẹp gradle.properties"
+          fi
+          
+          # Bắt đầu build
           ./gradlew assembleDebug
 
       - name: Upload APK
