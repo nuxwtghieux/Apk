@@ -6,17 +6,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.9 (Fix Chaquopy error)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
 
       - name: Unzip source code
         run: |
-          # Đã sửa thành TH.zip theo tên file của bạn
           unzip -o TH.zip
           echo "--- DANH SÁCH FILE SAU KHI GIẢI NÉN ---"
           ls -la
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
@@ -35,6 +39,8 @@ jobs:
           
           cd "$PROJECT_DIR"
           chmod +x gradlew
+          
+          # Chạy build với python 3.9 vừa cài
           ./gradlew assembleDebug
 
       - name: Upload APK
