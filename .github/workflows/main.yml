@@ -8,10 +8,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python 3.9 (Fix Chaquopy error)
+      - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: '3.11'
 
       - name: Unzip source code
         run: |
@@ -41,7 +41,6 @@ jobs:
           cd "$PROJECT_DIR"
           chmod +x gradlew
           
-          # XÓA DÒNG CẤU HÌNH LỖI AAPT2 (Gây lỗi "aapt2 does not exist")
           if [ -f "gradle.properties" ]; then
             sed -i '/aapt2FromMavenOverride/d' gradle.properties || true
             echo "Đã dọn dẹp gradle.properties"
